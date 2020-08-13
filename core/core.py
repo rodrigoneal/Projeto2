@@ -1,6 +1,5 @@
-from requests import get
+import requests
 from datetime import datetime
-from speed import perda
 
 
 class Requisicao:
@@ -10,28 +9,20 @@ class Requisicao:
     def status(self):
         codes = False
         try:
-            codes = get(self.url).ok
+            codes = requests.get(self.url, timeout=5).ok
         except:
-            loss = perda()
-            if loss.isdigit():
-                print('sem conexão')
+            codes = False
         data = self._data_hora()['data']
-        hora = self._data_hora()['hora']
-        return {'status':codes,'data':data, 'hora':hora}
+        return {'status':codes,'data':data}
 
-    def _data_hora(self) -> tuple:
+    @staticmethod
+    def _data_hora() -> dict():
         """
         Converte a data e hora para o formato brasileiro
         :return: data e hora
         """
         agora = datetime.now()
-        tempo = agora.strftime('%m/%d/%Y,%H:%M:%S').split(',')
-        data = tempo[0]
-        hora = tempo[1]
-        return {'data':data, 'hora':hora}
+        tempo = agora.strftime('%d/%m/%Y,%H:%M:%S')
+        data = datetime.strptime(tempo, '%d/%m/%Y,%H:%M:%S')
+        return {'data':data}
 
-
-if __name__ == '__main__':
-    requisicao = Requisicao()
-    a = requisicao.status()
-    print(a)

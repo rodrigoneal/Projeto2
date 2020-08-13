@@ -1,15 +1,20 @@
 from app import db
+from datetime import datetime
 
 
 class Relatorio(db.Model):
     __tablename__ = 'relatorios'
     id = db.Column(db.Integer, primary_key=True)
-    data_queda = db.Column(db.String(11))
-    hora_queda = db.Column(db.String(8))
-    data_volta = db.Column(db.String(11))
-    hora_volta = db.Column(db.String(8))
+    queda = db.Column(db.DateTime)
+    volta = db.Column(db.DateTime)
     periodo = db.Column(db.String(8))
-    protocolo = (db.String(60))
+    protocolo = db.Column(db.String(60))
+
+    def __init__(self, queda, volta , periodo, protocolo=0):
+        self.queda = queda
+        self.volta = volta
+        self.periodo = periodo
+        self.protocolo = protocolo
 
 
 class Qualidade(db.Model):
@@ -19,7 +24,7 @@ class Qualidade(db.Model):
     upload = db.Column(db.Integer())
     ping = db.Column(db.Integer())
     perda = db.Column(db.Integer())
-    atualizado = db.Column(db.String(11))
+    atualizado = db.Column(db.DateTime)
 
     def __init__(self, download, upload, ping, perda, atualizado):
         self.download = download
@@ -27,7 +32,6 @@ class Qualidade(db.Model):
         self.ping = ping
         self.perda = perda
         self.atualizado = atualizado
-
 
 
 class Desconto(db.Model):
@@ -47,9 +51,3 @@ class Desconto(db.Model):
     dezembro = db.Column(db.Float)
 
 
-class Protocolo(db.Model):
-    __tablename__ = 'protocolos'
-    id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.String(11))
-    queda = db.Column(db.String(8))
-    protocolo = db.Column(db.String(60))

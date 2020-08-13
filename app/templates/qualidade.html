@@ -1,16 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Qualidade</title>
-</head>
-<body>
+{% extends 'base.html'%}
 
-    {% for q in qual %}
-    <lu>
-        <li> {{q.id}}</li>
-        <li> {{q.download}}</li>
-    </lu>
-    {% endfor %}
-</body>
-</html>
+{%block title%}Qualidade da Internet{% endblock %}
+
+{% from 'components/tabela_qualidade.html' import tabela_componente %}
+
+
+{%block content %}
+<div class="container">
+ {% include 'components/teste_velocidade.html'%}
+ <div>
+ {{tabela_componente(qualidades)}}
+  </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block script%}
+
+$('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
+})
+
+{% endblock %}

@@ -1,11 +1,11 @@
 from datetime import datetime
-
-
-def periodo(caiu, voltou):
-    caiu = datetime.strptime(caiu, '%d/%m/%Y, %H:%M:%S')
-    voltou = datetime.strptime(voltou, '%d/%m/%Y, %H:%M:%S')
-    total_segundos = (voltou - caiu).total_seconds()
-    return total_segundos
+def periodo(caiu, voltou, opcao=0):
+    if opcao == 0:
+        tempo = (voltou - caiu).total_seconds()
+        return tempo
+    else:
+        tempo = (voltou - caiu)
+        return str(tempo)
 
 
 def valor_segundo(valor, periodo):
@@ -22,3 +22,7 @@ def desconto(caiu, voltou, valor):
     desc = valor_segundo(valor, tempo)
     return desc
 
+if __name__ == '__main__':
+    caiu = datetime.now().replace(microsecond=0)
+    voltou = datetime.fromordinal(737720)
+    a = voltou - caiu

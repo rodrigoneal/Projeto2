@@ -1,0 +1,55 @@
+{% macro tabela_componente(qualidades)%}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Download</th>
+          <th scope="col">Upload</th>
+          <th scope="col">Ping</th>
+          <th scope="col">Perda</th>
+          <th scope="col">Atualizado</th>
+
+        </tr>
+      </thead>
+      <tbody>
+      {% for velocidade in qualidades.items %}
+        <tr>
+
+          <th scope="row">{{velocidade.id}}</th>
+          <td>{{velocidade.download}} Mb</td>
+          <td>{{velocidade.upload}} Mb</td>
+          <td>{{velocidade.ping}} ms</td>
+          <td>{{velocidade.perda}} %</td>
+          <td>{{velocidade.atualizado | formatdate()}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+    <ul class="pagination">
+        {% if qualidades.has_prev %}
+        <li class="page-item"><a class="page-link" href="{{url_for('qualidade',page_num=qualidades.prev_num )}}"><i class="fa fa-arrow-left"></i></a></li>
+        {% else %}
+        <li class="page-item disable"><span class="page-link"><i class="fa fa-arrow-left"></i></span></li>
+        {% endif %}
+        {% for page in qualidades.iter_pages(left_edge= 3, right_edge= 3) %}
+            {% if page %}
+                {% if page != qualidades.page %}
+                <li class="page-item"><a class="page-link" href="{{url_for('qualidade',page_num=page )}}">{{page}}</a></li>
+                    {% else %}
+
+                <li class="page-item active "><a class="page-link" href="{{url_for('qualidade',page_num=page )}}">{{page}}</a></li>
+
+        {% endif %}
+            {% else %}
+                <li class="page-item disable"><a class="page-link" href="#">...</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if qualidades.has_next %}
+            <li class="page-item"><a class="page-link" href="{{url_for('qualidade',page_num=qualidades.next_num )}}"><i class="fa fa-arrow-right"></i></a></li>
+        {% else %}
+            <li class="page-item disable"><span class="page-link"><i class="fa fa-arrow-right"></i></span></li>
+        {% endif %}
+    </ul>
+{% endmacro%}

@@ -1,15 +1,43 @@
-{% extends 'base.html'%}
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
 
-
-
-{% block title%}Index {% endblock %}
-
+{% from 'components/tabela_registro.html' import tabela_componente %}
 
 {% block content %}
-<div>
-<h1 class="center-align">Qualidade da internet </h1>
 
-<div class="container"><a href="{{url_for('medir')}}">Medir a valocidade</a></div>
+<div class="container">
+    <div class="row d-flex justify-content-center">
+    {% if tem == True %}
+        <p class="bg-success  w-75 text-center">Internet Funcionando </p>
+        <a href="{{url_for('index', page_num=1)}}" class="h-25 text-center" data-toggle="tooltip" data-placement="top" title="Recarregar"><i class="fa fa-redo"></i></a>
+    {% else %}
+        <p class="bg-danger text-center">Sem Internet </p>
+    {% endif %}
+    </div>
+    {{tabela_componente(quedas)}}
+
+
+
 </div>
 
+
 {% endblock %}
+
+{% block script %}
+
+
+
+$(".salvar").click(function() {
+  alert( "Protocolo Salvo" );
+});
+$("fieldset").attr("disabled", function()
+{
+
+        });
+});
+$(".editar").click(function() {
+   $('fieldset').removeAttr("disabled");
+});
+{% endblock %}
+
+

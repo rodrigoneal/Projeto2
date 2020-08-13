@@ -1,11 +1,14 @@
-
-<nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo center">Logo</a>
-      <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li><a href="sass.html">Qualidade</a></li>
-        <li><a href="badges.html">Quedas</a></li>
-        <li><a href="collapsible.html">Protocolo</a></li>
-      </ul>
+<div class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{{url_for('home')}}">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-link active" href="{{url_for('fake_qualidade')}}">Qualidade</span></a>
+      <a class="nav-link" href="#">Desconto</a>
     </div>
+  </div>
 </nav>
+  </div>

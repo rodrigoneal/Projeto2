@@ -1,0 +1,72 @@
+{% macro tabela_componente(quedas)%}
+<table class="table">
+    <thead>
+    <h2 class="text-center">Relatorio das Quedas da Internet</h2>
+        <tr>
+          <th scope="col">Nºde Quedas</th>
+          <th scope="col"> Data da Queda </th>
+          <th scope="col">Data da Volta</th>
+          <th scope="col">Periodo</th>
+          <th scope="col">Protocolo</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+      {% for queda in quedas.items %}
+        <tr>
+          <th scope="row">{{queda.id}}</th>
+          <td>{{queda.queda | formatdate()}} </td>
+          <td>{{queda.volta | formatdate()}}</td>
+          <td>{{queda.periodo}}</td>
+
+
+            <td>
+                <form action="{{url_for('protocolo')}}" class='form'  method='post'>
+
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">NºProtocolo</span>
+                      </div>
+                        <input type="text"  name="protocolo" value="{{queda.protocolo}}" class="form-control protocolo ">
+                        <input type="text"  name="id" value="{{queda.id}}" class="form-control d-none">
+                        <button class="btn btn-primary salvar disable  ml-1" type="submit" value="submit"><i class="fa fa-save fa-sm"></i></button>
+
+                    </div>
+
+                    </form>
+              </td>
+
+        </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+
+    <ul class="pagination">
+        {% if quedas.has_prev %}
+        <li class="page-item"><a class="page-link" href="{{url_for('index',page_num=quedas.prev_num )}}"><i class="fa fa-arrow-left"></i></a></li>
+        {% else %}
+        <li class="page-item disable"><span class="page-link"><i class="fa fa-arrow-left"></i></span></li>
+        {% endif %}
+        {% for page in quedas.iter_pages(left_edge= 3, right_edge= 3) %}
+            {% if page %}
+        {% if page != quedas.page %}
+                <li class="page-item"><a class="page-link" href="{{url_for('qualidade',page_num=page )}}">{{page}}</a></li>
+                    {% else %}
+
+                <li class="page-item active "><a class="page-link" href="{{url_for('qualidade',page_num=page )}}">{{page}}</a></li>
+
+        {% endif %}
+
+            {% else %}
+                <li class="page-item disable"><a class="page-link" href="#">...</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if quedas.has_next %}
+            <li class="page-item"><a class="page-link" href="{{url_for('index',page_num=quedas.next_num )}}"><i class="fa fa-arrow-right"></i></a></li>
+        {% else %}
+            <li class="page-item disable"><span class="page-link"><i class="fa fa-arrow-right"></i></span></li>
+        {% endif %}
+    </ul>
+{% endmacro%}

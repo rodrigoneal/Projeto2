@@ -22,7 +22,7 @@ def velocidade():
     Realizar um teste na velocidade de download, upload e ping
     :return: uma tupla com velocidade de download, upload e ping
     """
-    atualizado = datetime.now().date()
+    atualizado = datetime.now()
     s = Speedtest()
     s.get_servers()
     s.get_best_server()
