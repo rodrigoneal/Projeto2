@@ -8,15 +8,15 @@ except:
 pasta = os.path.dirname(__file__) + '/status'
 
 
-def tem_internet(status):
-    with open(f'{pasta}/status.json', 'w') as file:
-        internet = {'status': status}
+def gravar_json(status, path):
+    with open(f'{pasta}/{path}.json', 'w') as file:
+        internet = status
         internet = json.dumps(internet)
         file.write(internet)
 
 
-def ler_tem_internet():
-    with open(f'{pasta}/status.json', 'r') as file:
+def ler_json(path):
+    with open(f'{pasta}/{path}.json', 'r') as file:
         internet = file.read()
         status = json.loads(internet)
         return status

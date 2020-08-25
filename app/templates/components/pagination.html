@@ -1,0 +1,61 @@
+{% macro page_view(pagination, endpoint) %}
+<div class="container d-flex">
+     <ul class="pagination">
+            {% if pagination.has_prev %}
+                    {% if endpoint == 'index'%}
+                        <li class="page-item"><a class="page-link" href="{{url_for('index' , page_num=1 )}}"><i class="fa fa-angle-double-left"></i></a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="{{url_for('tabela_qualidade' , page_num=1 )}}"><i class="fa fa-angle-double-left"></i></a></li>
+                    {% endif %}
+            {% else %}
+                <li class="page-item disable"><span class="page-link"><i class="fa fa-angle-double-left"></i></span></li>
+            {% endif %}
+            {% if pagination.has_prev %}
+                 {% if endpoint == 'index'%}
+                    <li class="page-item"><a class="page-link" href="{{url_for('index',page_num=pagination.prev_num )}}"><i class="fas fa-chevron-left"></i></a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="{{url_for('tabela_qualidade',page_num=pagination.prev_num )}}"><i class="fas fa-chevron-left"></i></a></li>
+                {% endif %}
+            {% else %}
+                <li class="page-item disable"><span class="page-link"><i class="fas fa-chevron-left"></i></span></li>
+            {% endif %}
+            {% for page in pagination.iter_pages(left_edge= 3, right_edge= 3) %}
+                {% if page %}
+                    {% if page != pagination.page %}
+                        {% if endpoint == 'index'%}
+                            <li class="page-item"><a class="page-link" href="{{url_for('index',page_num=page )}}">{{page}}</a></li>
+                         {% else %}
+                            <li class="page-item"><a class="page-link" href="{{url_for('tabela_qualidade',page_num=page )}}">{{page}}</a></li>
+                        {% endif %}
+                    {% else %}
+                        <li class="page-item active "><a class="page-link">{{page}}</a></li>
+                    {% endif %}
+
+                {% else %}
+                    <li class="page-item disable"><a class="page-link" href="#">...</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if pagination.has_next %}
+                {% if endpoint == 'index'%}
+                    <li class="page-item"><a class="page-link" href="{{url_for('index',page_num=pagination.next_num )}}"><i class="fas fa-chevron-right"></i></a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="{{url_for('tabela_qualidade',page_num=pagination.next_num )}}"><i class="fas fa-chevron-right"></i></a></li>
+                {% endif %}
+            {% else %}
+                <li class="page-item disable"><span class="page-link"><i class="fas fa-chevron-right"></i></span></li>
+            {% endif %}
+            {% if pagination.has_next %}
+                {% if endpoint == 'index'%}
+                    <li class="page-item"><a class="page-link" href="{{url_for('index',page_num=pagination.pages )}}"><i class="fa fa-angle-double-right"></i></a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="{{url_for('tabela_qualidade',page_num=pagination.pages )}}"><i class="fa fa-angle-double-right"></i></a></li>
+                {% endif %}
+            {% else %}
+                <li class="page-item disable"><a class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+{% endmacro %}

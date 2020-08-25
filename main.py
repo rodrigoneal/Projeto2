@@ -2,35 +2,47 @@ from core.core import Requisicao
 from core.converso import periodo
 from app.models.relatorio import Relatorio, db
 from app import create_app
-from core.status import tem_internet
-
+from core.status import gravar_json
+from time import sleep
 app = create_app()
 
 requisicao = Requisicao()
 
-queda = {'queda': None, 'volta': None, 'periodo': periodo}
-
+registro = {'queda': None, 'volta': None, 'periodo': periodo}
 with app.app_context():
     db.create_all()
+
 
 while True:
 
     status = requisicao.status()
-    tem_internet(status['status'])
+    gravar_json({'status':status['status']} , 'status')
     if not status['status']:
-        queda['queda'] = status['data']
+        sleep(10)
+        status = requisicao.status()
+        print(status['status'])
+    if not status['status']:
+        registro['queda'] = status['data']
+        with app.app_context():
+            relatorio = Relatorio()
+            relatorio.queda = registro['queda']
+            db.session.add(relatorio)
+            db.session.commit()
 
     while not status['status']:
-        tem_internet(status['status'])
-        status = requisicao.status()
-        if status['status']:
-            queda['volta'] = status['data']
-            caiu = queda['queda']
-            volta = queda['volta']
-            tempo = periodo(caiu, volta, opcao=1)
-            queda['periodo'] = tempo
+       gravar_json({'status':status['status']}, 'status')
+       status = requisicao.status()
+       if status['status']:
+            registro['volta'] = status['data']
+            caiu = registro['queda']
+            volta = registro['volta']
+            tempo = periodo(caiu, volta)
+            registro['periodo'] = tempo
             with app.app_context():
-                relatorio = Relatorio(**queda)
-                db.session.add(relatorio)
+                save = Relatorio.query.filter_by(queda=registro['queda']).first()
+                save.volta = registro['volta']
+                save.periodo = registro['periodo']
+                db.session.add(save)
                 db.session.commit()
+                print('peguei um pokemon')
             break

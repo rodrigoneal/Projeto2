@@ -7,7 +7,7 @@ import re
 def perda(servidor='8.8.8.8'):
     servidor = servidor.replace(':8080', '')
     try:
-        process = subprocess.run(['ping', servidor], check=True, stdout=subprocess.PIPE,
+        process = subprocess.run(['ping', '8.8.8.8', '-n','10'], check=True, stdout=subprocess.PIPE,
                                  universal_newlines=True)
         output = process.stdout
         padrao = r'(\w+%)'

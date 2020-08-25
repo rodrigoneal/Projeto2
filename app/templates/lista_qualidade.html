@@ -1,0 +1,42 @@
+{% extends 'base.html'%}
+
+{%block title%}Qualidade da Internet{% endblock %}
+
+{% from 'components/tabela_qualidade.html' import tabela_componente %}
+{% from 'components/pagination.html' import page_view %}
+
+{%block content %}
+ <!--Pagina mostra o registro de download -->
+<div class="container">
+     {% include 'components/teste_velocidade.html'%}
+     <div class="container text-center">
+
+     {{tabela_componente(qualidades, avg_media, config)}}
+     {{page_view(qualidades, 'lista_qualidade')}}
+      </div>
+    <div class="container border-bottom">
+        <h4 class="mb-3" >Legenda: </h4>
+        <div>
+        {% set down = config['download'] * 0.4%}
+        {% set up = config['upload'] * 0.4%}
+        <p class="text-justify text-left">Sua velocidade contratada é de {{config['download']}} MB a sua medição direta tem que ser 40% da sua velocidade contratada.
+            <br>
+       40% de {{config['download']}}MB = {{down | int()}} MB, pra simplificar sempre que você fizer uma medição que o valor for
+        inferior aos 40% do contratado ele ficará em vermelho e valores acima ficará em verde.</p>
+        </div>
+
+    </div>
+
+     {% include 'components/anatel.html'%}
+
+
+</div>
+
+
+{% endblock %}
+
+
+
+{% block script%}
+
+{% endblock %}

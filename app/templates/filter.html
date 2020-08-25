@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+<div class="container text-center">
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                <span>{{ message }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+</div>
+{% include 'components/date_picker.html'%}
+<table class="table table-bordered">
+    <thead>
+        <h2 class="text-center">Relatorio das Quedas da Internet</h2>
+        <tr>
+            <th scope="col"> Data da Queda </th>
+            <th scope="col">Data da Volta</th>
+            <th scope="col">Periodo</th>
+            <th scope="col">Protocolo</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+      {% for queda in quedas.items %}
+        <tr>
+          <td>{{queda.queda | formatdate()}} </td>
+          <td>{{queda.volta | formatdate()}}</td>
+            {%if queda.periodo == None%}
+          <td></td>
+            {%else%}
+            <td>{{queda.periodo | parser_seconds()}}</td>
+            {% endif %}
+            <td>
+                <form action="{{url_for('protocolo')}}" class='form'  method='post'>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text">NºProtocolo</span>
+                      </div>
+                        {%if queda.protocolo == None%}
+                            <input type="text"  name="protocolo" value="" class="form-control protocolo ">
+                        {%else%}
+                            <input type="text"  name="protocolo" value="{{queda.protocolo}}" class="form-control protocolo ">
+                        {% endif %}
+                            <input type="text"  name="id" value="{{queda.id}}" class="form-control d-none">
+                            <button class="btn btn-primary salvar disable  ml-1" type="submit" value="submit"><i class="fa fa-save fa-sm"></i></button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+
+    </table>
+
+ <!--Paginção -->
+        <ul class="pagination">
+            {% if quedas.has_prev %}
+                            <li class="page-item"><a class="page-link" href="{{url_for('filter',page_num=1 )}}"><i class="fas fa-angle-double-left"></i></a></li>
+            {% else %}
+                <li class="page-item disable"><span class="page-link"><i class="fa fa-angle-double-left"></i></span></li>
+            {% endif %}
+            {% if quedas.has_prev %}
+                <li class="page-item"><a class="page-link" href="{{url_for('filter',page_num=quedas.prev_num )}}"><i class="fas fa-chevron-left"></i></a></li>
+            {% else %}
+                <li class="page-item disable"><span class="page-link"><i class="fas fa-chevron-left"></i></span></li>
+            {% endif %}
+            {% for page in quedas.iter_pages(left_edge= 3, right_edge= 3) %}
+                {% if page %}
+                    {% if page != quedas.page %}
+                        <li class="page-item"><a class="page-link" href="{{url_for('filter',page_num=page )}}">{{page}}</a></li>
+                    {% else %}
+                        <li class="page-item active "><a class="page-link">{{page}}</a></li>
+                    {% endif %}
+
+                {% else %}
+                    <li class="page-item disable"><a class="page-link" href="#">...</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if quedas.has_next %}
+                <li class="page-item"><a class="page-link" href="{{url_for('filter',page_num=quedas.next_num )}}"><i class="fas fa-chevron-right"></i></a></li>
+            {% else %}
+                <li class="page-item disable"><span class="page-link"><i class="fas fa-chevron-right"></i></span></li>
+            {% endif %}
+            {% if quedas.has_next %}
+                <li class="page-item"><a class="page-link" href="{{url_for('filter',page_num=quedas.pages )}}"><i class="fa fa-angle-double-right"></i></a></li>
+            {% else %}
+                <li class="page-item disable"><a class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+
+            {% endif %}
+        </ul>
+        </div>
+{% endblock %}

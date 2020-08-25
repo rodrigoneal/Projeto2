@@ -1,11 +1,11 @@
-{% macro tabela_componente(qualidades)%}
-    <table class="table">
-      <thead>
+{% macro tabela_componente(qualidades, avg_media, config)%}
+<div class="container">
+    <table class="table table-bordered">
+      <thead class="thead-dark">
         <tr>
-          <th scope="col">#</th>
           <th scope="col">Download</th>
           <th scope="col">Upload</th>
-          <th scope="col">Ping</th>
+          <th scope="col">Latência</th>
           <th scope="col">Perda</th>
           <th scope="col">Atualizado</th>
 
@@ -15,41 +15,90 @@
       {% for velocidade in qualidades.items %}
         <tr>
 
-          <th scope="row">{{velocidade.id}}</th>
-          <td>{{velocidade.download}} Mb</td>
-          <td>{{velocidade.upload}} Mb</td>
-          <td>{{velocidade.ping}} ms</td>
-          <td>{{velocidade.perda}} %</td>
+            {% if velocidade.download < (config['download'] * 0.4) %}
+          <td class="text-danger">{{velocidade.download}} Mb</td>
+            {% else %}
+          <td class="text-success">{{velocidade.download}} Mb</td>
+            {% endif %}
+            {% if velocidade.upload < (0.4 * config['upload']) %}
+          <td class="text-danger">{{velocidade.upload}} Mb</td>
+            {% else %}
+          <td class="text-success">{{velocidade.upload}} Mb</td>
+            {% endif %}
+            {% if velocidade.ping > 100 %}
+          <td class="text-danger">{{velocidade.ping}} ms</td>
+            {% else %}
+          <td class="text-success">{{velocidade.ping}} ms</td>
+            {% endif %}
+            {% if velocidade.perda != 0 %}
+          <td class="text-danger">{{velocidade.perda}} ms</td>
+            {% else %}
+          <td class="text-success">{{velocidade.perda}} ms</td>
+            {% endif %}
           <td>{{velocidade.atualizado | formatdate()}}</td>
         </tr>
         {% endfor %}
       </tbody>
+
     </table>
+    <!-- Tabela Mostrando a media dos dados de download -->
+    <h4>Analise dos testes</h4>
+    <div class="w-75 ">
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <th scope="col">Nº Teste</th>
+          <th scope="col">Download</th>
+          <th scope="col">Upload</th>
+          <th scope="col">Latência</th>
+          <th scope="col">Perda</th>
+        </thead>
+        <tbody>
+        <tr>
+    <!-- Mostra o total de medicão feitas  -->
+        {% if avg_media['total'] == 0 %}
 
-
-    <ul class="pagination">
-        {% if qualidades.has_prev %}
-        <li class="page-item"><a class="page-link" href="{{url_for('qualidade',page_num=qualidades.prev_num )}}"><i class="fa fa-arrow-left"></i></a></li>
         {% else %}
-        <li class="page-item disable"><span class="page-link"><i class="fa fa-arrow-left"></i></span></li>
+            <th scope="row">{{avg_media['total']}}</th>
         {% endif %}
-        {% for page in qualidades.iter_pages(left_edge= 3, right_edge= 3) %}
-            {% if page %}
-                {% if page != qualidades.page %}
-                <li class="page-item"><a class="page-link" href="{{url_for('qualidade',page_num=page )}}">{{page}}</a></li>
-                    {% else %}
 
-                <li class="page-item active "><a class="page-link" href="{{url_for('qualidade',page_num=page )}}">{{page}}</a></li>
+    <!-- Mostra a media de download registrado-->
+        {%if avg_media['download'] <= 0 %}
 
-        {% endif %}
-            {% else %}
-                <li class="page-item disable"><a class="page-link" href="#">...</a></li>
-            {% endif %}
-        {% endfor %}
-        {% if qualidades.has_next %}
-            <li class="page-item"><a class="page-link" href="{{url_for('qualidade',page_num=qualidades.next_num )}}"><i class="fa fa-arrow-right"></i></a></li>
+        {%elif avg_media['download'] > 0 and avg_media['download'] <  24 %}
+            <td class="text-danger">{{avg_media['download'] | int() }} Mb</td>
         {% else %}
-            <li class="page-item disable"><span class="page-link"><i class="fa fa-arrow-right"></i></span></li>
+            <td class="text-success">{{avg_media['download'] | int() }} Mb</td>
         {% endif %}
-    </ul>
-{% endmacro%}
+
+    <!--Mostra a media de upload registrado -->
+        {%if avg_media['upload'] <= 0 %}
+
+        {%elif avg_media['upload'] > 0 and avg_media['upload'] < 8%}
+            <td class="text-danger">{{avg_media['upload'] | int() }} Mb</td>
+        {% else %}
+            <td class="text-success">{{avg_media['upload'] | int() }} Mb</td>
+        {% endif %}
+
+     <!--Mostra a media de ping registrado -->
+        {% if avg_media['ping'] == 0 %}
+
+        {% elif avg_media['ping'] < 100 %}
+            <td class="text-success">{{avg_media['ping'] | int()}}</td>
+        {% else %}
+            <td class="text-danger">{{avg_media['ping'] | int()}}</td>
+        {% endif %}
+
+     <!--Mostra a media de perda de dados registrado -->
+        {% if avg_media['perda'] <= 5 %}
+            <td class="text-success">{{avg_media['perda'] | int()}}</td>
+        {% else %}
+            <td class="text-danger">{{avg_media['perda'] | int()}}</td>
+        {% endif %}
+
+    </tr>
+        </tbody>
+
+    </table>
+        </div>
+
+{% endmacro %}

@@ -2,22 +2,23 @@
 {% block title %}Home{% endblock %}
 
 {% from 'components/tabela_registro.html' import tabela_componente %}
+{% from 'components/pagination.html' import page_view %}
+
 
 {% block content %}
 
-<div class="container">
-    <div class="row d-flex justify-content-center">
-    {% if tem == True %}
-        <p class="bg-success  w-75 text-center">Internet Funcionando </p>
-        <a href="{{url_for('index', page_num=1)}}" class="h-25 text-center" data-toggle="tooltip" data-placement="top" title="Recarregar"><i class="fa fa-redo"></i></a>
-    {% else %}
-        <p class="bg-danger text-center">Sem Internet </p>
-    {% endif %}
+<div class="container text-center">
+    <div class="d-flex justify-content-center   align-middle">
+        {% if status == True %}
+            <h4 class="text-success text-center pr-5">Você está conectado à Internet</h4>
+        {% else %}
+            <h4 class="text-danger text-center pr-5">Sem conexão com a internet </h4>
+        {% endif %}
+            <a href="{{url_for('index', page_num=1)}}" class="h-25 text-center" data-toggle="tooltip" data-placement="top" title="Recarregar"><i class="fa fa-redo"></i></a>
+
     </div>
     {{tabela_componente(quedas)}}
-
-
-
+    {{page_view(quedas, 'index')}}
 </div>
 
 
@@ -27,17 +28,7 @@
 
 
 
-$(".salvar").click(function() {
-  alert( "Protocolo Salvo" );
-});
-$("fieldset").attr("disabled", function()
-{
 
-        });
-});
-$(".editar").click(function() {
-   $('fieldset').removeAttr("disabled");
-});
 {% endblock %}
 
 

@@ -1,0 +1,28 @@
+<div class="text-center p-3">
+     <!--Botão para medir a velocidade da internet -->
+    <a href="{{url_for('speedtest')}} "class="speed">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Teste de velocidade
+            <i class="fa fa-tachometer-alt"></i>
+        </button>
+        <!--Modal mostrando a mensagem com alerta de troca de pagina e auto recarregar -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+            <div class="modal-body text-center">
+                    <img class="w-100" src="{{url_for('static', filename='img/load.gif')}}" alt="" />
+                <h5 class="text-center">Favor Aguarde</h5>
+
+
+            </div>
+            <div class="modal-footer">
+
+                <h6 class="text-center text-info">A Pagina irá atualizar automaticamente ao final do teste</h6>
+            </div>
+            </div>
+        </div>
+    </div>
+   </a>
+
+ </div>
+

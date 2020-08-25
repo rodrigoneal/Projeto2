@@ -1,26 +1,64 @@
 {% extends 'base.html'%}
 
-{%block title%}Qualidade da Internet{% endblock %}
+{% block title %}
+    Qualidade
+{% endblock%}
 
-{% from 'components/tabela_qualidade.html' import tabela_componente %}
+{% block content %}
+                <div class="text-center" id="loading" style="display:none;">
+                    <img src="{{url_for('static', filename='img/load.gif')}}" alt="" />
+                    <div class="container">Favor Aguarde!</div></div>
 
+<div class="container mb-5">
 
-{%block content %}
-<div class="container">
- {% include 'components/teste_velocidade.html'%}
- <div>
- {{tabela_componente(qualidades)}}
-  </div>
+    <div class="container  w-50 bg-light mt-3 ">
+        <div class="container ">
+            <div class="row mb-5 ">
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-6 text-center pt-2 ">
+                            <i class="fa fa-arrow-down fa-2x"></i>
+                             <h5>Download</h5>
+                             <h4 class="dados">{{speed['download']}}</h4>
+                             <p class="mt-n2">Mbps</p>
+                        </div>
+
+                        <div class="col-6 text-center pt-2 ">
+                            <i class="fa fa-arrow-up fa-2x"></i>
+                             <h5>Upload</h5>
+                             <h4 class="dados">{{speed['upload']}}</h4>
+                             <p class="mt-n2">Mbps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row ">
+                        <div class="col-6 pt-3 ">
+                            <p>Latência: </p>
+                            <p>Perda: </p>
+                        </div>
+                        <div class="col-6 pt-3">
+                             <p class="dados">{{speed['ping']}} ms</p>
+                            <p class="dados">{{speed['perda']}} %</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 justify-content-right mt-n5">
+                    <a class="float-right"><i class="fa fa-question-circle"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </div>
+    <div class="container">
+        <div class="col-12 d-flex justify-content-center mt-n4">
+            <a href="{{url_for('speedtest')}}" onclick="$('#loading').show();$('.dados').remove();"><button type="button" class="speed btn btn-success">Iniciar Teste</button></a>
+        </div>
 
+    </div>
 
-{% endblock %}
+<script>
 
-{% block script%}
-
-$('#myModal').on('shown.bs.modal', function () {
-  $('#myInput').trigger('focus')
-})
-
-{% endblock %}
+{% endblock%}

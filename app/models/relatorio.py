@@ -1,20 +1,14 @@
 from app import db
-from datetime import datetime
 
 
 class Relatorio(db.Model):
     __tablename__ = 'relatorios'
     id = db.Column(db.Integer, primary_key=True)
-    queda = db.Column(db.DateTime)
-    volta = db.Column(db.DateTime)
-    periodo = db.Column(db.String(8))
+    queda = db.Column(db.DateTime, unique=True)
+    volta = db.Column(db.DateTime, unique=True)
+    periodo = db.Column(db.Integer())
     protocolo = db.Column(db.String(60))
 
-    def __init__(self, queda, volta , periodo, protocolo=0):
-        self.queda = queda
-        self.volta = volta
-        self.periodo = periodo
-        self.protocolo = protocolo
 
 
 class Qualidade(db.Model):

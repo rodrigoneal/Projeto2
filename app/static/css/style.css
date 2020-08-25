@@ -1,0 +1,28 @@
+
+table {
+
+    border-collapse:separate;
+    border:solid black 1px;
+    border-radius:6px;
+    -moz-border-radius:6px;
+     border-spacing: 5px;
+}
+
+td, th {
+    border-left:solid black 1px;
+    border-top:solid black 1px;
+    border-radius:5px;
+}
+
+th {
+    border-top: 1px;
+}
+
+td:first-child, th:first-child {
+     border-left: none;
+      background: white;
+}
+
+.botao{
+margin-top: 32px;
+}

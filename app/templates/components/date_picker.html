@@ -1,0 +1,27 @@
+<form action="{{url_for('filter')}}" method="get">
+<div class="container ">
+    <div class="row col-12 mr-n2">
+        <div class="col-2 form-group">
+        <label >Inicio</label>
+            <input type="date" name="inicio" max="3000-12-31"
+        min="1000-01-01" class="form-control">
+        </div>
+
+        <div class="col-2 form-group mr-n2">
+            <label >Final</label>
+ <input type="date" name="fim" min="2020-08-09"
+        max="3000-12-31" class="form-control">
+        </div>
+
+        <div class="col-3 botao form-group mr-n2">
+            <label>Periodo</label>
+            <input type="time" name="periodo" step="1">
+        </div>
+
+        <div class="col-1 botao ml-n5 ">
+             <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+
+    </div>
+</div>
+</form>
