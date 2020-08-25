@@ -144,7 +144,7 @@ def init_routes(app, db):
             operadora = request.form.get('operadora')
             valor = request.form.get('valor')
             if not valor:
-                flash('Todos os campos são obrigatorios', 'danger')
+                flash('Todos os campos são obrigatorios', 'warning')
                 return redirect(url_for('config'))
             else:
                 valor = valor.replace(',', '.')
@@ -154,6 +154,12 @@ def init_routes(app, db):
                 return redirect(url_for('config'))
 
             config = {'download': int(down), 'upload': int(up), 'operadora': operadora, 'valor': valor}
-            gravar_json(config, 'config')
-            return redirect(url_for('index'))
+
+            try:
+                gravar_json(config, 'config')
+                flash('Registro Salvo com Sucesso', 'success')
+            except:
+                flash('Erro ao gravar o registro.', 'danger')
+                flash('Tente novamente.', 'danger')
+            return redirect(url_for('config'))
         return render_template('config.html')

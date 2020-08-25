@@ -19,53 +19,67 @@
 <div class="container text-center align-items-center">
     <h1>Configurações</h1>
     <form action="{{url_for('config')}}" method="post">
-        <div class="container w-75"  >
+        <div class="container align-items-center w-75"  >
             <div class="form-group text-center " style="width:801px">
                 <div class="row  border bg-primary pb-4 align-items-center">
-                    <div class="col-4">
-                        <h3 class="text-justify text-light border-right mt-4">Configuração velocidade: </h3>
+                    <div class="col-4 border-right">
+                        <h3>Configuração de Velocidade</h3>
                     </div>
-                    <div class=" col-2 w-50 ml-5">
-                        <label class="col-form-label  text-light">Download</label>
-                        <input  type="text" name="down" class="form-control" placeholder="150">
-                    </div>
-                      <div class="col-1 mt-5 ml-n4 align-self-center botao">
-                        <p>MB</p>
-                    </div>
-                    <div class="row border-right">
-
-                    </div>
-                    <div class="col-2">
-                        <label class="col-form-label text-light">Upload</label>
-                        <input type="text" name="up" class="form-control" placeholder="150">
-                    </div>
-                    <div class="col-1 mt-5 ml-n4 align-self-center botao">
-                        <p>MB</p>
-                    </div>
+                    <div class=" col-4 input-group mt-4" >
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">Download</span>
+                          </div>
+                          <input type="text" class="form-control" placeholder="30" name="down" aria-label="Amount (to the nearest dollar)">
+                          <div class="input-group-append">
+                            <span class="input-group-text">MB</span>
+                          </div>
+                        </div>
+                      </div>
+                     <div class=" col-4 input-group mt-4" >
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">Upload</span>
+                          </div>
+                          <input type="text" class="form-control" placeholder="30" name="up" aria-label="Amount (to the nearest dollar)">
+                          <div class="input-group-append">
+                            <span class="input-group-text">MB</span>
+                          </div>
+                        </div>
+                      </div>
 
                  </div>
             </div>
         </div>
-            <div class="container w-75 mt-n3" >
+            <div class="container text-center w-75 mt-n3" >
                 <div class="form-group d-flex text-center" >
-                    <div class="row border bg-danger pb-4 align-items-center " style="width:890px">
+                    <div class="row border bg-danger pb-4 align-items-center " style="width:880px">
                         <div class="col-4 d-flex align-items-center border-right mr-n5 pl-n2" >
                             <h3 class="text-justify text-light">Configuração <br> Internet: </h3>
                         </div>
                         <div class="col-4 ml-5">
+                            <div class="input-group mt-3">
                                 <label class="col-form-label  text-light">Operadora</label>
-                            <select class="form-control"name="operadora" id="exampleFormControlSelect1">
-                              <option>Tim Fibra/Live</option>
-                              <option>Vivo Fibra</option>
-                              <option>Oi Fibra</option>
-                              <option>Claro Net</option>
-                              <option>VigWeb</option>
-                              <option>Outras</option>
-                            </select>
+                                <select class="form-control"name="operadora" id="exampleFormControlSelect1">
+                                  <option>Tim Fibra/Live</option>
+                                  <option>Vivo Fibra</option>
+                                  <option>Oi Fibra</option>
+                                  <option>Claro Net</option>
+                                  <option>VigWeb</option>
+                                  <option>Outras</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="col-4">
-                            <label class="col-form-label text-light">Valor</label>
-                            <input type="text" name="valor" class="form-control" placeholder="150,00">
+                            <div class="input-group mt-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                              </div>
+                              <input type="text" class="form-control" placeholder="150"  name="valor" aria-label="Amount (to the nearest dollar)">
+                              <div class="input-group-append">
+                                <span class="input-group-text">.00</span>
+                              </div>
+                            </div>
                         </div>
                     </div>
                 </div>

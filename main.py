@@ -20,7 +20,6 @@ while True:
     if not status['status']:
         sleep(10)
         status = requisicao.status()
-        print(status['status'])
     if not status['status']:
         registro['queda'] = status['data']
         with app.app_context():
@@ -44,5 +43,4 @@ while True:
                 save.periodo = registro['periodo']
                 db.session.add(save)
                 db.session.commit()
-                print('peguei um pokemon')
             break
