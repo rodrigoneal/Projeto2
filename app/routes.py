@@ -150,7 +150,7 @@ def init_routes(app, db):
                 valor = valor.replace(',', '.')
             validar = valor.split('.')[0]
             if not validar.isnumeric():
-                flash('Entre com um valor numerico', 'danger')
+                flash('Entre com um valor numerico', 'warning')
                 return redirect(url_for('config'))
 
             config = {'download': int(down), 'upload': int(up), 'operadora': operadora, 'valor': valor}

@@ -16,14 +16,14 @@
     {% endif %}
 {% endwith %}
 </div>
-<div class="container text-center align-items-center">
+<div class="container text-center align-items-center ">
     <h1>Configurações</h1>
     <form action="{{url_for('config')}}" method="post">
         <div class="container align-items-center w-75"  >
             <div class="form-group text-center " style="width:801px">
                 <div class="row  border bg-primary pb-4 align-items-center">
-                    <div class="col-4 border-right">
-                        <h3>Configuração de Velocidade</h3>
+                    <div class="col-3 border-right mt-4">
+                        <h3 class="text-justify text-light">VELOCIDADE:</h3>
                     </div>
                     <div class=" col-4 input-group mt-4" >
                         <div class="input-group">
@@ -51,15 +51,17 @@
                  </div>
             </div>
         </div>
-            <div class="container text-center w-75 mt-n3" >
-                <div class="form-group d-flex text-center" >
-                    <div class="row border bg-danger pb-4 align-items-center " style="width:880px">
-                        <div class="col-4 d-flex align-items-center border-right mr-n5 pl-n2" >
-                            <h3 class="text-justify text-light">Configuração <br> Internet: </h3>
+            <div class="container w-75 mt-n3" >
+                <div class="form-group d-flex" >
+                    <div class="row border bg-dark pb-4 align-items-center " style="width:831px">
+                        <div class="col-3 d-flex align-items-center border-right mt-3 mr-n5 pl-n2" >
+                            <h3 class="text-light">INTERNET: </h3>
                         </div>
                         <div class="col-4 ml-5">
                             <div class="input-group mt-3">
-                                <label class="col-form-label  text-light">Operadora</label>
+                                 <div class="input-group-prepend">
+                                <span class="input-group-text">Operadora</span>
+                              </div>
                                 <select class="form-control"name="operadora" id="exampleFormControlSelect1">
                                   <option>Tim Fibra/Live</option>
                                   <option>Vivo Fibra</option>
@@ -73,7 +75,7 @@
                         <div class="col-4">
                             <div class="input-group mt-3">
                               <div class="input-group-prepend">
-                                <span class="input-group-text">$</span>
+                                <span class="input-group-text">Valor</span>
                               </div>
                               <input type="text" class="form-control" placeholder="150"  name="valor" aria-label="Amount (to the nearest dollar)">
                               <div class="input-group-append">
@@ -84,7 +86,7 @@
                     </div>
                 </div>
             </div>
-        <button type="submit" class="btn btn-primary">Enviar</button>
+        <button type="submit" class="btn btn-success">Enviar</button>
     </form>
 </div>
 {% endblock %}
