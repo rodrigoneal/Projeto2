@@ -9,14 +9,15 @@ app = create_app()
 requisicao = Requisicao()
 
 registro = {'queda': None, 'volta': None, 'periodo': periodo}
-with app.app_context():
-    db.create_all()
+
 
 
 while True:
 
     status = requisicao.status()
     gravar_json({'status':status['status']} , 'status')
+    with app.app_context():
+        db.create_all()
     if not status['status']:
         sleep(10)
         status = requisicao.status()

@@ -20,3 +20,5 @@ def ler_json(path):
         internet = file.read()
         status = json.loads(internet)
         return status
+gravar_json({'status':'True'}, 'status')
+ler_json('status')

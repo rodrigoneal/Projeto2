@@ -159,6 +159,7 @@ def init_routes(app, db):
             try:
                 gravar_json(config, 'config')
                 flash('Registro Salvo com Sucesso', 'success')
+                redirect(url_for('index'))
             except:
                 flash('Erro ao gravar o registro.', 'danger')
                 flash('Tente novamente.', 'danger')

@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from . import filtros
+from app import filtros
 
 db = SQLAlchemy()
 
