@@ -1,6 +1,6 @@
 <form action="{{url_for('filter')}}" method="get">
-<div class="container ">
-    <div class="row col-12 mr-n2">
+<div class="container" >
+    <div class="row col-12">
 
         <div class="col-2 form-group">
 
@@ -9,25 +9,26 @@
             min="1000-01-01" class="form-control">
         </div>
 
-        <div class="col-2 form-group mr-n2">
+        <div class="col-2 form-group ml-n4  mr-n4  ">
             <label >Final</label>
             <input type="date" name="fim" min="2020-08-09"
              max="3000-12-31" class="form-control">
         </div>
 
-        <div class="col-2  form-group mr-n2">
+        <div class="col-2 text-center ml-n4 roudend mr-n4 form-group mt-1">
             <label>Periodo</label>
-            <input type="time" name="periodo" step="1">
+            <br>
+            <input type="time" name="periodo" class="rounded text-center" step="1">
         </div>
 
-        <div class="col-2  form-group mr-n2">
+        <div class="col-2 text-center mt-1 w-50 form-group ml-n4  mr-n4 ">
             <label>protocolo</label>
-            <input type="text" name="protocolo" step="1">
+            <input class=" rounded w-75" type="text" name="protocolo" step="1">
         </div>
 
 
-        <div class="col-2 form-group mr-n2  ">
-             <button type="submit" class="btn btn-primary">Filtrar</button>
+        <div class="col-2  text-center form-group mt-4  ml-n4  mr-n4  ">
+             <button type="submit" class="btn btn-primary rounded ">Filtrar</button>
         </div>
 
     </div>

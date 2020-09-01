@@ -7,7 +7,7 @@ class Relatorio(db.Model):
     queda = db.Column(db.DateTime, unique=True)
     volta = db.Column(db.DateTime, unique=True)
     periodo = db.Column(db.Integer())
-    protocolo = db.Column(db.String(60))
+    protocolo = db.Column(db.String(60), unique=True)
 
 
 

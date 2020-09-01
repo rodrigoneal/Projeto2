@@ -21,8 +21,8 @@
         {% set up = config['upload'] * 0.4%}
         <p class="text-justify text-left">Sua velocidade contratada é de {{config['download']}} MB a sua medição direta tem que ser 40% da sua velocidade contratada.
             <br>
-       40% de {{config['download']}}MB = {{down | int()}} MB, pra simplificar sempre que você fizer uma medição que o valor for
-        inferior aos 40% do contratado ele ficará em vermelho e valores acima ficará em verde.</p>
+            40% de {{config['download']}}MB = {{down | int()}} MB. Para simplificar sempre que houver uma nova medição que o valor for
+        inferior aos 40% do contratado, eles ficaram em vermelho e valores acima dos 40% ficaram em verde.</p>
         </div>
 
     </div>

@@ -27,7 +27,7 @@
             <td>{{queda.periodo | parser_seconds()}}</td>
             {% endif %}
             <td>
-                <form action="{{url_for('protocolo')}}" class='form'  method='post'>
+                <form action="{{url_for('index')}}" class='form'  method='post'>
                     <div class="input-group">
                       <div class="input-group-prepend">
                           <span class="input-group-text">NºProtocolo</span>
@@ -38,7 +38,7 @@
                             <input type="text"  name="protocolo" value="{{queda.protocolo}}" class="form-control protocolo ">
                         {% endif %}
                             <input type="text"  name="id" value="{{queda.id}}" class="form-control d-none">
-                            <button class="btn btn-primary salvar disable  ml-1" type="submit" value="submit"><i class="fa fa-save fa-sm"></i></button>
+                            <button class="btn btn-primary salvar disable  ml-1" type="submit" value="submit" id="save"><i class="fa fa-save fa-sm"></i></button>
                     </div>
                 </form>
             </td>

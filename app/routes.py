@@ -2,15 +2,15 @@ from .models.relatorio import Qualidade, Relatorio
 from core.speed import velocidade
 from flask import url_for, redirect, render_template, request, flash, session
 from core.status import gravar_json, ler_json
-from . import filtros
 from datetime import date, datetime, timedelta
+from time import sleep
 
 speed = {}
 
 status = ler_json('status')['status']
 
 
-def date_picker(inicio, fim, periodo, page_num):
+def date_picker(inicio, fim, periodo, page_num, protocolo):
     if not fim:
         fim = datetime.now().date()
         fim = fim.strftime("%Y-%m-%d")
@@ -25,23 +25,34 @@ def date_picker(inicio, fim, periodo, page_num):
             Relatorio.periodo >= periodo)
         paginate = relatorio.paginate(per_page=5, page=page_num, error_out=True)
         return paginate
-    else:
+    if periodo:
         relatorio = Relatorio.query.filter(Relatorio.periodo >= periodo)
+        paginate = relatorio.paginate(per_page=5, page=page_num, error_out=True)
+        return paginate
+    if protocolo:
+        relatorio = Relatorio.query.filter(Relatorio.protocolo == protocolo)
         paginate = relatorio.paginate(per_page=5, page=page_num, error_out=True)
         return paginate
 
 
 def init_routes(app, db):
-    app.jinja_env.filters['formatdate'] = filtros.formatar_data
-    app.jinja_env.filters['parser_seconds'] = filtros.seconds_to_time
-
     @app.before_first_request
     def before_first_request_func():
         db.create_all()
 
-    @app.route('/')
-    @app.route('/<int:page_num>')
+    @app.route('/', methods=['GET', 'POST'])
+    @app.route('/<int:page_num>', methods=['GET', 'POST'])
     def index(page_num=1):
+        if request.method == 'POST':
+            id = request.form.get('id')
+            proto = request.form.get('protocolo')
+            relatorio = Relatorio.query.get(id)
+            relatorio.protocolo = proto
+            db.session.add(relatorio)
+            db.session.commit()
+            flash('Protocolo Salvo', 'success')
+            return redirect(url_for('index', page_num=1))
+
         try:
             read = ler_json('config')
         except:
@@ -58,17 +69,17 @@ def init_routes(app, db):
     @app.route('/filter')
     @app.route('/filter/<int:page_num>')
     def filter(page_num=1):
-        inicio = 0
-        fim = 0
         date = request.args.get('periodo')
+        protocolo = request.args.get('protocolo')
+        argumento = request.args.get('inicio')
+        if protocolo and not argumento:
+            session.clear()
         if date:
             date = date.split(':')
-
             periodo = int(timedelta(hours=int(date[0]), minutes=int(date[1]), seconds=int(date[2])).total_seconds())
         else:
             periodo = 0
 
-        argumento = request.args.get('inicio')
         if periodo > 0 and not argumento:
             session.clear()
         if 'inicio' in session:
@@ -86,7 +97,7 @@ def init_routes(app, db):
             session['inicio'] = inicio
             session['fim'] = fim
 
-        quedas = date_picker(inicio, fim, periodo, page_num)
+        quedas = date_picker(inicio, fim, periodo, page_num, protocolo)
         return render_template('filter.html', status=status, quedas=quedas)
 
     # Aqui Começa as rotas de qualidade
@@ -116,16 +127,6 @@ def init_routes(app, db):
     def qualidade():
         global speed
         return render_template('qualidade.html', speed=speed)
-
-    @app.route('/protocolo', methods=['POST'])
-    def protocolo():
-        id = request.form.get('id')
-        proto = request.form.get('protocolo')
-        relatorio = Relatorio.query.get(id)
-        relatorio.protocolo = proto
-        db.session.add(relatorio)
-        db.session.commit()
-        return redirect(url_for('index', page_num=1))
 
     @app.route('/speedtest')
     def speedtest():
