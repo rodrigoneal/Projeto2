@@ -23,7 +23,7 @@
 
 <div class="container text-center">
     <div class="d-flex justify-content-center   align-middle">
-        {% if status == True %}
+        {% if status['status'] == True %}
             <h4 class="text-success text-center pr-5">Você está conectado à Internet</h4>
         {% else %}
             <h4 class="text-danger text-center pr-5">Sem conexão com a internet </h4>

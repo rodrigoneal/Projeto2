@@ -52,6 +52,8 @@ def init_routes(app, db):
             db.session.commit()
             flash('Protocolo Salvo', 'success')
             return redirect(url_for('index', page_num=1))
+        status = ler_json('status')
+
 
         try:
             read = ler_json('config')
