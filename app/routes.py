@@ -39,6 +39,7 @@ def init_routes(app, db):
     @app.before_first_request
     def before_first_request_func():
         db.create_all()
+        config = {'download': 0, 'upload': 0, 'operadora': '', 'valor': 0}
 
     @app.route('/', methods=['GET', 'POST'])
     @app.route('/<int:page_num>', methods=['GET', 'POST'])
@@ -57,6 +58,9 @@ def init_routes(app, db):
 
         try:
             read = ler_json('config')
+            if read['download'] == 0:
+                flash('É necessário configurar o programa antes de começar', 'warning')
+                return redirect(url_for('config'))
         except:
             flash('É necessário configurar o programa antes de começar', 'warning')
             return redirect(url_for('config'))
@@ -156,7 +160,7 @@ def init_routes(app, db):
                 flash('Entre com um valor numerico', 'warning')
                 return redirect(url_for('config'))
 
-            config = {'download': int(down), 'upload': int(up), 'operadora': operadora, 'valor': valor}
+            config = {'download': int(down), 'upload': int(up), 'operadora': operadora, 'valor': int(valor)}
 
             try:
                 gravar_json(config, 'config')

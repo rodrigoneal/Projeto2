@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='internet',
-    version='0.1.4',
+    version='0.1.6',
     packages=['app', 'app.models', 'core'],
     url='',
     license='',
